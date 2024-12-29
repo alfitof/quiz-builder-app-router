@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { login } from "./actions";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -14,6 +16,8 @@ export default function LoginPage() {
 
     if (result.error) {
       setError(result.error);
+    } else if (result.success) {
+      router.push("/dashboard");
     }
   };
 

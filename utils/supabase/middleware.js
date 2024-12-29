@@ -35,6 +35,15 @@ export async function updateSession(request) {
 
   // IMPORTANT: DO NOT REMOVE auth.getUser()
 
+  const { data: session } = await supabase.auth.getSession();
+  const { pathname } = request.nextUrl;
+
+  if (!session && pathname !== "/login") {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  // Jika pengguna login, izinkan akses
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -43,6 +52,7 @@ export async function updateSession(request) {
     !user &&
     !request.nextUrl.pathname.startsWith("/login") &&
     !request.nextUrl.pathname.startsWith("/signup") &&
+    !request.nextUrl.pathname.startsWith("/") &&
     !request.nextUrl.pathname.startsWith("/auth")
   ) {
     // no user, potentially respond by redirecting the user to the login page
@@ -66,3 +76,7 @@ export async function updateSession(request) {
 
   return supabaseResponse;
 }
+
+export const config = {
+  matcher: ["/quizzes/:path*", "/dashboard/:path*"], // Lindungi semua rute yang perlu login
+};
