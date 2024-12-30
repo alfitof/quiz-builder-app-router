@@ -2,24 +2,47 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+Setup and Running Instructions
 
-```bash
+1. Create a .env.local file in the root directory of the project.
+2. Add the following Supabase credentials in .env.local:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+
+3. Replace your-project-url and your-anon-key with your Supabase project's URL and anon key.
+4. Cre4ate a database in Supabase named quizzes with the following table schema:
+
+```
+CREATE TABLE quizzes (
+  id BIGINT PRIMARY KEY,
+  created_at TIMESTAMPTZ,
+  title TEXT,
+  total_questions BIGINT,
+  type TEXT,
+  questions JSONB,
+  success_rate NUMERIC,
+  duration BIGINT,
+  time_taken BIGINT,
+  user_id UUID DEFAULT auth.uid() REFERENCES auth.users(id)
+);
+```
+
+5. After setting up your .env.local and the database, run the Next.js app as usual:
+
+```
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. This will start the app on http://localhost:3000.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
+   
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
