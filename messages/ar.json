@@ -5,7 +5,8 @@
   },
   "Navbar": {
     "dashboard": "لوحة القيادة",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "login": "تسجيل الدخول"
   },
   "Dashboard": {
     "dashboard": "لوحة القيادة",

@@ -5,7 +5,8 @@
   },
   "Navbar": {
     "dashboard": "Dashboard",
-    "logout": "Sign Out"
+    "logout": "Sign Out",
+    "login": "Login"
   },
   "Dashboard": {
     "dashboard": "Dashboard",

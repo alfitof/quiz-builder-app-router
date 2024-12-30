@@ -167,7 +167,7 @@ const Navbar = () => {
               href="/login"
               className="px-5 py-2 font-semibold text-white bg-[#f47516] rounded-lg hover:bg-orange-600 focus:ring-4 focus:ring-orange-300"
             >
-              Login
+              {t("login")}
             </Link>
           )}
         </div>
