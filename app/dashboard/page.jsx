@@ -41,7 +41,7 @@ export default function Dashboard() {
     );
   }
   return (
-    <div className="w-full">
+    <div className="w-full bg-home">
       <Navbar />
       <main className="px-8 pb-8 pt-2 mx-auto max-w-7xl">
         <div className="flex items-center">

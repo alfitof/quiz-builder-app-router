@@ -13,9 +13,7 @@ const HotTopicQuiz = () => {
     <Card className="col-span-4">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">Hot Topics</CardTitle>
-        <CardDescription>
-          Click on a topic to start a quiz on it.
-        </CardDescription>
+        <CardDescription>Hot topics quiz in this week.</CardDescription>
       </CardHeader>
       <CardContent className="p-8">
         <WordCloud />

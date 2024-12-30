@@ -200,12 +200,12 @@ const PlayQuiz = ({ params }) => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="w-full mx-auto px-6 py-10 flex justify-center items-center bg-home  min-h-screen">
       {alreadyPlayed && score !== null ? (
-        <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+        <div className="glassmorphism rounded-lg shadow-lg p-16 text-center">
           <h2 className="text-2xl font-bold mb-6">Quiz Complete!</h2>
           <p className="text-lg text-gray-600 mb-2">Great job</p>
-          <div className="text-5xl font-bold mb-6 text-blue-600">
+          <div className="text-5xl font-bold mb-6 text-orange-500">
             Time Taken: {formatTimeTaken(quiz.time_taken)}
           </div>
           <p className="text-gray-600 mb-8">
@@ -215,60 +215,48 @@ const PlayQuiz = ({ params }) => {
 
           <button
             onClick={() => router.push("/quizzes")}
-            className="bg-blue-600 text-white mr-3 px-6 py-3 rounded-lg hover:bg-blue-700 
-     transition-colors duration-200"
+            className="bg-orange-600 text-white mr-3 px-6 py-3 rounded-lg hover:bg-orange-700 
+   transition-colors duration-200"
           >
             Back to Quizzes
           </button>
           <button
             onClick={handleTryAgain}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 
-     transition-colors duration-200"
+            className="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 
+   transition-colors duration-200"
           >
             Try Again
           </button>
         </div>
       ) : (
-        // <div>
-        //   <h2 className="text-lg font-semibold">
-        //     Your Score: {score.toFixed(2)}%
-        //   </h2>
-        //   <p className="mt-2 text-lg">
-        //     Time Taken: {formatTimeTaken(quiz.time_taken)}
-        //   </p>
-        //   <button
-        //     onClick={() => router.push("/quizzes")}
-        //     className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        //   >
-        //     Back to Quizzes
-        //   </button>
-        //   <button
-        //     onClick={handleTryAgain}
-        //     className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-        //   >
-        //     Try Again
-        //   </button>
-        // </div>
-        <div>
-          <h1 className="text-2xl font-bold mb-4">{quiz.title}</h1>
-          {/* Timer */}
-          <div className="text-xl font-semibold mb-4">
-            Time Left: {formatTime(timeLeft)}
+        <div className="glassmorphism w-[90%] rounded-lg shadow-lg p-8">
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold text-gray-800">{quiz.title}</h1>
+            <span className="text-lg font-medium text-gray-500">
+              Time Left:{" "}
+              <span className="text-orange-500 font-semibold">
+                {formatTime(timeLeft)}
+              </span>
+            </span>
           </div>
-          <h2 className="text-lg font-semibold mb-4">
-            Question {currentQuestionIndex + 1} of {quiz.total_questions}
-          </h2>
-          <p className="mb-4">{currentQuestion.question}</p>
+
+          <div className="mb-6">
+            <h2 className="text-lg font-medium text-gray-800">
+              Question {currentQuestionIndex + 1} of {quiz.total_questions}
+            </h2>
+            <p className="text-gray-700 mt-2">{currentQuestion.question}</p>
+          </div>
+
           {quiz.type === "Multiple Choice" && (
-            <div className="space-y-2">
+            <div className="space-y-4">
               {currentQuestion.answers.map((answer, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleAnswerChange(answer)}
-                  className={`block w-full px-4 py-2 text-left border rounded ${
+                  className={`block w-full text-left px-6 py-3 border rounded-lg transition-all duration-200 shadow-sm ${
                     answers[currentQuestionIndex] === answer
-                      ? "bg-[#f47516] text-white"
-                      : "bg-white"
+                      ? "bg-orange-600 text-white border-orange-700"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   {answer}
@@ -276,27 +264,33 @@ const PlayQuiz = ({ params }) => {
               ))}
             </div>
           )}
-          <div className="flex justify-between mt-6">
+
+          <div className="flex justify-between mt-8">
             <button
               disabled={currentQuestionIndex === 0}
               onClick={() =>
                 setCurrentQuestionIndex((prev) => Math.max(0, prev - 1))
               }
-              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+              className={`px-6 py-2 rounded-lg shadow-md transition-all ${
+                currentQuestionIndex === 0
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-gray-500 text-white hover:bg-gray-600"
+              }`}
             >
               Previous
             </button>
+
             {currentQuestionIndex < quiz.total_questions - 1 ? (
               <button
                 onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow-md transition-all"
               >
                 Next
               </button>
             ) : (
               <button
                 onClick={handleSubmit}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 shadow-md transition-all"
               >
                 Submit
               </button>

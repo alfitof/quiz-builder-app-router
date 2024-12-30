@@ -15,10 +15,12 @@ export async function login(formData) {
   if (error) {
     if (error.message.includes("Invalid login credentials")) {
       return { error: "Incorrect email or password." };
+    } else if (error.message.includes("Email not confirmed")) {
+      return { error: "Email not confirmed, please confirm in Gmail." };
     } else {
       return { error: "An error occurred. Please try again." };
     }
   }
 
-  return { success: true }; // Kembalikan status berhasil tanpa redirect
+  return { success: true };
 }

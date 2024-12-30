@@ -75,9 +75,6 @@ const WordCloud = () => {
         rotate={0}
         padding={10}
         fill={theme.theme === "dark" ? "white" : "black"}
-        onWordClick={(e, d) => {
-          router.push("/quiz?topic=" + d.text);
-        }}
       />
     </>
   );

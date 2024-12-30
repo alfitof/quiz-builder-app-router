@@ -3,10 +3,15 @@
 import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import MenuIcon from "../../assets/menu.svg";
-import ModifyIcon from "../../assets/modify.svg";
-import RemoveIcon from "../../assets/remove.svg";
+import {
+  BookOpen,
+  Clock,
+  Trophy,
+  Plus,
+  MoreVertical,
+  Edit2,
+  Trash2,
+} from "lucide-react";
 
 const QuizList = () => {
   const supabase = createClient();
@@ -18,7 +23,6 @@ const QuizList = () => {
   const [authLoading, setAuthLoading] = useState(true);
   const dropdownRef = useRef(null);
   const router = useRouter();
-  const [session, setSession] = useState(null);
 
   useEffect(() => {
     const fetchSessionAndQuizzes = async () => {
@@ -31,13 +35,12 @@ const QuizList = () => {
         router.push("/login");
         return;
       }
-      setSession(session);
       setAuthLoading(false);
 
       const { data, error } = await supabase
         .from("quizzes")
         .select("*")
-        .eq("user_id", session.user.id); // Filter kuis berdasarkan user_id
+        .eq("user_id", session.user.id);
       if (error) console.error(error);
       else setQuizzes(data);
       setLoading(false);
@@ -103,129 +106,152 @@ const QuizList = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      {quizzes.length === 0 ? (
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold">Quizzes await! Make one.</h2>
-          <p className="text-gray-600 mt-2">
-            Click below to begin your journey here.
-          </p>
-          <button
-            onClick={() => router.push("/quizzes/quiz-build")}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Create Quiz
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-semibold">Available Quizzes</h1>
-            <button
-              onClick={() => router.push("/quizzes/quiz-build")}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              Add Create Quiz
-            </button>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {quizzes.map((quiz) => (
-              <div
-                key={quiz.id}
-                className="p-4 border rounded shadow hover:shadow-lg transition relative"
+    <div className="min-h-screen bg-home">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {quizzes.length === 0 ? (
+          <div className="text-center py-20">
+            <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md mx-auto">
+              <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <BookOpen className="w-10 h-10 text-orange-500" />
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-3">
+                Start Your Quiz Journey
+              </h2>
+              <p className="text-gray-600 mb-8">
+                Create your first quiz and begin testing knowledge in an
+                engaging way.
+              </p>
+              <button
+                onClick={() => router.push("/quizzes/quiz-build")}
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
-                <div className="relative w-full h-32 bg-red-500 rounded-lg mb-4">
-                  <div className="absolute top-1 right-2">
-                    <button
-                      onClick={() => toggleDropdown(quiz.id)}
-                      className="p-2 text-white"
-                    >
-                      <Image src={MenuIcon} height={25} width={25} />
-                    </button>
-                    {dropdownOpen === quiz.id && (
-                      <div
-                        ref={dropdownRef}
-                        className="absolute right-0 mt-2 bg-white border rounded shadow-lg z-10 w-[8.5rem]"
+                <Plus className="w-5 h-5 mr-2" />
+                Create Your First Quiz
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-10">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  Your Quiz Collection
+                </h1>
+                <p className="text-gray-600">
+                  Manage and play your created quizzes
+                </p>
+              </div>
+              <button
+                onClick={() => router.push("/quizzes/quiz-build")}
+                className="mt-4 sm:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <Plus className="w-5 h-5 mr-2" />
+                Create New Quiz
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {quizzes.map((quiz) => (
+                <div
+                  key={quiz.id}
+                  className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                >
+                  <div className="relative h-48 bg-gradient-to-br from-orange-400 to-orange-600">
+                    <div className="absolute top-4 right-4">
+                      <button
+                        onClick={() => toggleDropdown(quiz.id)}
+                        className="p-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors"
                       >
-                        <button
-                          className="flex items-center px-5 py-3 text-left hover:bg-gray-100 w-full"
-                          onClick={() => handleModify(quiz.id)}
+                        <MoreVertical className="w-5 h-5 text-white" />
+                      </button>
+                      {dropdownOpen === quiz.id && (
+                        <div
+                          ref={dropdownRef}
+                          className="absolute right-0 mt-2 bg-white rounded-lg shadow-xl z-10 w-48 py-2 border border-gray-100"
                         >
-                          <Image
-                            src={ModifyIcon}
-                            height={20}
-                            width={20}
-                            className="mr-3"
-                          />
-                          Modify
-                        </button>
-                        <button
-                          className="flex items-center text-[#ff4444] px-5 py-3 text-left hover:bg-gray-100 w-full"
-                          onClick={() => handleRemove(quiz.id)}
-                        >
-                          <Image
-                            src={RemoveIcon}
-                            height={20}
-                            width={20}
-                            className="mr-3"
-                          />
-                          Remove
-                        </button>
+                          <button
+                            className="w-full px-4 py-2 text-left hover:bg-orange-50 flex items-center text-gray-700"
+                            onClick={() => handleModify(quiz.id)}
+                          >
+                            <Edit2 className="w-4 h-4 mr-2" />
+                            Modify Quiz
+                          </button>
+                          <button
+                            className="w-full px-4 py-2 text-left hover:bg-red-50 flex items-center text-red-600"
+                            onClick={() => handleRemove(quiz.id)}
+                          >
+                            <Trash2 className="w-4 h-4 mr-2" />
+                            Remove Quiz
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    <div className="absolute bottom-4 left-4 right-4">
+                      <h2 className="text-xl font-bold text-white mb-1 line-clamp-2">
+                        {quiz.title}
+                      </h2>
+                    </div>
+                  </div>
+
+                  <div className="p-6">
+                    <div className="space-y-3 mb-6">
+                      <div className="flex items-center text-gray-600">
+                        <BookOpen className="w-5 h-5 mr-2" />
+                        <span>{quiz.total_questions} Questions</span>
                       </div>
-                    )}
+                      <div className="flex items-center text-gray-600">
+                        <Clock className="w-5 h-5 mr-2" />
+                        <span>{quiz.duration} minutes</span>
+                      </div>
+                      <div className="flex items-center text-gray-600">
+                        <Trophy className="w-5 h-5 mr-2" />
+                        <span>
+                          {quiz.success_rate === null
+                            ? "No attempts yet"
+                            : quiz.success_rate === 0
+                            ? "0% Success rate"
+                            : `${quiz.success_rate}% Success rate`}
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={() =>
+                        router.push(`/quizzes/play-quiz/${quiz.id}`)
+                      }
+                      className="w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200 font-medium"
+                    >
+                      Play Quiz
+                    </button>
                   </div>
                 </div>
-
-                <h2 className="text-lg font-semibold mb-2">{quiz.title}</h2>
-                <p className="text-gray-600 mb-1">
-                  Questions: {quiz.total_questions}
-                </p>
-                <p className="text-gray-600 mb-1">
-                  Duration: {quiz.duration} mins
-                </p>
-                <p className="text-gray-600 mb-4">
-                  Success Rate:{" "}
-                  {quiz.success_rate === null
-                    ? "N/A"
-                    : quiz.success_rate === 0
-                    ? "0%"
-                    : `${quiz.success_rate}%`}
-                </p>
-
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => router.push(`/quizzes/play-quiz/${quiz.id}`)}
-                    className="px-4 py-2 rounded text-white"
-                    style={{ backgroundColor: "#f47516" }}
-                  >
-                    Play
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-
+              ))}
+            </div>
+          </>
+        )}
+      </div>
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl w-80">
-            <h3 className="text-xl font-semibold mb-4">Are you sure?</h3>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Remove Quiz?
+            </h3>
             <p className="text-gray-600 mb-6">
-              Do you want to remove this quiz?
+              This action cannot be undone. Are you sure you want to remove this
+              quiz?
             </p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={cancelRemove}
-                className="px-4 py-2 bg-gray-300 rounded text-black hover:bg-gray-400"
+                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmRemove}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
-                Confirm
+                Remove
               </button>
             </div>
           </div>

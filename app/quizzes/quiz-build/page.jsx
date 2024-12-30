@@ -219,7 +219,9 @@ const CreateQuiz = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10">
+    <div
+      className={`w-full mx-auto px-4 pb-10 pt-5 ${loading ? "" : "bg-home"}`}
+    >
       {loading ? (
         <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-[70vw] md:w-[60vw] flex flex-col items-center">
           <Image src={"/loading.gif"} width={400} height={400} alt="loading" />
@@ -235,106 +237,122 @@ const CreateQuiz = () => {
           <h1 className="mt-4 text-xl">{loadingTexts[loadingTextIndex]}</h1>
         </div>
       ) : (
-        <div>
-          <h1 className="text-2xl font-semibold mb-6">Create a New Quiz</h1>
-          <div className="space-y-4">
-            <div>
-              <label className="block font-semibold">Title</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border rounded"
-              />
-            </div>
-            <div>
-              <label className="block font-semibold">Number of Questions</label>
-              <input
-                type="number"
-                value={totalQuestions}
-                onChange={(e) => setTotalQuestions(Number(e.target.value))}
-                min="1"
-                className="w-full px-4 py-2 border rounded"
-              />
-            </div>
-            <div>
-              <label className="block font-semibold">Type</label>
-              <select
-                value={type}
-                onChange={(e) => setType(e.target.value)}
-                className="w-full px-4 py-2 border rounded"
-              >
-                <option value="Multiple Choice">Multiple Choice</option>
-              </select>
-            </div>
-            <div>
-              <label className="block font-semibold">Duration (minutes)</label>
-              <input
-                type="number"
-                value={duration}
-                onChange={(e) => setDuration(Number(e.target.value))}
-                min="1"
-                className="w-full px-4 py-2 border rounded"
-              />
-            </div>
-            {questions.map((q, index) => (
-              <div key={index} className="space-y-2">
-                <label className="block font-semibold">
-                  Question {index + 1}
+        <div className="w-full min-h-screen flex justify-center items-center py-12">
+          <div className="bg-transparent w-full max-w-5xl p-10">
+            <h1 className="text-4xl font-bold text-gray-900 mb-10 text-center">
+              Create a New Quiz
+            </h1>
+            <div className="space-y-8">
+              <div>
+                <label className="block text-lg font-semibold text-gray-700 mb-2">
+                  Title
                 </label>
                 <input
                   type="text"
-                  value={q.question}
-                  placeholder={`Question ${index + 1}`}
-                  onChange={(e) =>
-                    handleQuestionChange(index, "question", e.target.value)
-                  }
-                  className="w-full px-4 py-2 border rounded"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full px-5 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
                 />
-                {type === "Multiple Choice" && (
-                  <>
-                    {q.answers.map((answer, idx) => (
+              </div>
+
+              <div>
+                <label className="block text-lg font-semibold text-gray-700 mb-2">
+                  Number of Questions
+                </label>
+                <input
+                  type="number"
+                  value={totalQuestions}
+                  onChange={(e) => setTotalQuestions(Number(e.target.value))}
+                  min="1"
+                  className="w-full px-5 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-lg font-semibold text-gray-700 mb-2">
+                  Type
+                </label>
+                <select
+                  value={type}
+                  onChange={(e) => setType(e.target.value)}
+                  className="w-full px-5 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                >
+                  <option value="Multiple Choice">Multiple Choice</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-lg font-semibold text-gray-700 mb-2">
+                  Duration (minutes)
+                </label>
+                <input
+                  type="number"
+                  value={duration}
+                  onChange={(e) => setDuration(Number(e.target.value))}
+                  min="1"
+                  className="w-full px-5 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                />
+              </div>
+
+              {questions.map((q, index) => (
+                <div key={index} className=" p-6 space-y-4">
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    Question {index + 1}
+                  </h2>
+                  <input
+                    type="text"
+                    value={q.question}
+                    placeholder={`Question ${index + 1}`}
+                    onChange={(e) =>
+                      handleQuestionChange(index, "question", e.target.value)
+                    }
+                    className="w-full px-5 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                  />
+                  {type === "Multiple Choice" && (
+                    <>
+                      {q.answers.map((answer, idx) => (
+                        <input
+                          key={idx}
+                          type="text"
+                          value={answer}
+                          onChange={(e) =>
+                            handleQuestionChange(
+                              index,
+                              "answers",
+                              e.target.value,
+                              idx
+                            )
+                          }
+                          placeholder={`Answer ${idx + 1}`}
+                          className="w-full px-5 py-3 border border-gray-300 rounded-xl shadow-sm mt-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                        />
+                      ))}
                       <input
-                        key={idx}
                         type="text"
-                        value={answer}
+                        value={q.correctAnswer}
                         onChange={(e) =>
                           handleQuestionChange(
                             index,
-                            "answers",
-                            e.target.value,
-                            idx
+                            "correctAnswer",
+                            e.target.value
                           )
                         }
-                        placeholder={`Answer ${idx + 1}`}
-                        className="w-full px-4 py-2 border rounded mt-2"
+                        placeholder="Correct Answer"
+                        className="w-full px-5 py-3 border border-gray-300 rounded-xl shadow-sm mt-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
                       />
-                    ))}
+                    </>
+                  )}
+                </div>
+              ))}
 
-                    <input
-                      type="text"
-                      value={q.correctAnswer}
-                      onChange={(e) =>
-                        handleQuestionChange(
-                          index,
-                          "correctAnswer",
-                          e.target.value
-                        )
-                      }
-                      placeholder="Correct Answer"
-                      className="w-full px-4 py-2 border rounded mt-2"
-                    />
-                  </>
-                )}
-              </div>
-            ))}
-            <button
-              onClick={handleCreateQuiz}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              disabled={loading}
-            >
-              Create Quiz
-            </button>
+              <button
+                onClick={handleCreateQuiz}
+                className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-medium text-lg hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg hover:shadow-xl"
+                disabled={loading}
+              >
+                {loading ? "Creating Quiz..." : "Create Quiz"}
+              </button>
+            </div>
           </div>
         </div>
       )}

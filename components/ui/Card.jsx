@@ -6,7 +6,10 @@ const Card = React.forwardRef(({ className, ...props }, ref) => (
   <div
     ref={ref}
     className={twMerge(
-      clsx("rounded-xl border bg-card text-card-foreground shadow", className)
+      clsx(
+        "rounded-xl border text-card-foreground shadow glassmorphism",
+        className
+      )
     )}
     {...props}
   />
