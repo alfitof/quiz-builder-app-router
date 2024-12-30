@@ -13,19 +13,19 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
 3. Replace your-project-url and your-anon-key with your Supabase project's URL and anon key.
-4. Cre4ate a database in Supabase named quizzes with the following table schema:
+4. Create a database in Supabase named quizzes with the following table schema:
 
 ```
 CREATE TABLE quizzes (
-  id BIGINT PRIMARY KEY,
+  id INT8 PRIMARY KEY,
   created_at TIMESTAMPTZ,
   title TEXT,
-  total_questions BIGINT,
+  total_questions INT8,
   type TEXT,
   questions JSONB,
   success_rate NUMERIC,
-  duration BIGINT,
-  time_taken BIGINT,
+  duration INT8,
+  time_taken INT8,
   user_id UUID DEFAULT auth.uid() REFERENCES auth.users(id)
 );
 ```
