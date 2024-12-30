@@ -4,12 +4,14 @@ import { useRouter } from "next/navigation";
 import { signup } from "./actions";
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function RegisterPage() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations("Auth");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,11 +52,11 @@ export default function RegisterPage() {
             </a>
           </div>
           <div class="mt-12 flex flex-col items-center">
-            <h1 class="text-2xl xl:text-3xl font-extrabold">Sign up</h1>
+            <h1 class="text-2xl xl:text-3xl font-extrabold">{t("up")}</h1>
             <div class="w-full flex-1">
               <div class="mb-12 mt-6 border-b text-center">
                 <div class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
-                  Sign up with e-mail
+                  {t("up_email")}
                 </div>
               </div>
 
@@ -98,21 +100,21 @@ export default function RegisterPage() {
                       <circle cx="8.5" cy="7" r="4" />
                       <path d="M20 8v6M23 11h-6" />
                     </svg>
-                    <span class="ml-3">Sign Up</span>
+                    <span class="ml-3">{t("up")}</span>
                   </button>
                   <p className="mt-6 text-xs text-gray-600 text-center">
-                    Have an account?{" "}
+                    {t("have_acc")}{" "}
                     <Link href="login" className="text-blue-500 underline">
-                      Sign In
+                      {t("in")}
                     </Link>
                   </p>
                   <p class="mt-4 text-xs text-gray-600 text-center">
                     <a href="#" class="border-b border-gray-500 border-dotted">
-                      Terms of Service
+                      {t("terms")}
                     </a>
                     <br className="my-2" />
                     <a href="#" class="border-b border-gray-500 border-dotted">
-                      Privacy Policy
+                      {t("policy")}
                     </a>
                   </p>
                 </div>
@@ -125,17 +127,14 @@ export default function RegisterPage() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-full max-w-sm p-6 space-y-4 bg-white rounded-lg shadow-lg">
             <h2 className="text-xl font-bold text-center text-[#f47516]">
-              Check Your Email
+              {t("title_modal")}
             </h2>
-            <p className="text-center text-gray-700">
-              We have sent a confirmation link to your email. Please check your
-              inbox and follow the instructions to verify your account.
-            </p>
+            <p className="text-center text-gray-700">{t("desc_modal")}</p>
             <button
               onClick={handleModalClose}
               className="w-full py-2 text-white bg-[#f47516] rounded-md hover:bg-orange-600 focus:ring-4 focus:ring-orange-300"
             >
-              Close
+              {t("close")}
             </button>
           </div>
         </div>

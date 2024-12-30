@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 const CreateQuiz = () => {
   const supabase = createClient();
+  const t = useTranslations("Create");
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [totalQuestions, setTotalQuestions] = useState(1);
@@ -212,7 +214,7 @@ const CreateQuiz = () => {
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-[#f47516] border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg font-semibold">Loading...</p>
+          <p className="mt-4 text-lg font-semibold">{t("loading")}</p>
         </div>
       </div>
     );
@@ -240,12 +242,12 @@ const CreateQuiz = () => {
         <div className="w-full min-h-screen flex justify-center items-center py-12">
           <div className="bg-transparent w-full max-w-5xl p-10">
             <h1 className="text-4xl font-bold text-gray-900 mb-10 text-center">
-              Create a New Quiz
+              {t("title")}
             </h1>
             <div className="space-y-8">
               <div>
                 <label className="block text-lg font-semibold text-gray-700 mb-2">
-                  Title
+                  {t("form1")}
                 </label>
                 <input
                   type="text"
@@ -257,7 +259,7 @@ const CreateQuiz = () => {
 
               <div>
                 <label className="block text-lg font-semibold text-gray-700 mb-2">
-                  Number of Questions
+                  {t("form2")}
                 </label>
                 <input
                   type="number"
@@ -270,20 +272,20 @@ const CreateQuiz = () => {
 
               <div>
                 <label className="block text-lg font-semibold text-gray-700 mb-2">
-                  Type
+                  {t("form3")}
                 </label>
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value)}
                   className="w-full px-5 py-3 border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
                 >
-                  <option value="Multiple Choice">Multiple Choice</option>
+                  <option value="Multiple Choice">{t("mc")}</option>
                 </select>
               </div>
 
               <div>
                 <label className="block text-lg font-semibold text-gray-700 mb-2">
-                  Duration (minutes)
+                  {t("form4")}
                 </label>
                 <input
                   type="number"
@@ -297,12 +299,12 @@ const CreateQuiz = () => {
               {questions.map((q, index) => (
                 <div key={index} className=" p-6 space-y-4">
                   <h2 className="text-xl font-semibold text-gray-800">
-                    Question {index + 1}
+                    {t("question")} {index + 1}
                   </h2>
                   <input
                     type="text"
                     value={q.question}
-                    placeholder={`Question ${index + 1}`}
+                    placeholder={`${t("question")} ${index + 1}`}
                     onChange={(e) =>
                       handleQuestionChange(index, "question", e.target.value)
                     }
@@ -323,7 +325,7 @@ const CreateQuiz = () => {
                               idx
                             )
                           }
-                          placeholder={`Answer ${idx + 1}`}
+                          placeholder={`${t("answer")} ${idx + 1}`}
                           className="w-full px-5 py-3 border border-gray-300 rounded-xl shadow-sm mt-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
                         />
                       ))}
@@ -337,7 +339,7 @@ const CreateQuiz = () => {
                             e.target.value
                           )
                         }
-                        placeholder="Correct Answer"
+                        placeholder={t("correct")}
                         className="w-full px-5 py-3 border border-gray-300 rounded-xl shadow-sm mt-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
                       />
                     </>
@@ -350,7 +352,7 @@ const CreateQuiz = () => {
                 className="w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl font-medium text-lg hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg hover:shadow-xl"
                 disabled={loading}
               >
-                {loading ? "Creating Quiz..." : "Create Quiz"}
+                {t("create")}
               </button>
             </div>
           </div>

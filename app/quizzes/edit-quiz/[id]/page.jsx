@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter, useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const EditQuiz = () => {
   const supabase = createClient();
   const router = useRouter();
   const { id } = useParams();
-
+  const t = useTranslations("Edit");
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -77,23 +78,12 @@ const EditQuiz = () => {
     setLoading(false);
   };
 
-  if (authLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-[#f47516] border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg font-semibold">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-[#f47516] border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg font-semibold">Loading...</p>
+          <p className="mt-4 text-lg font-semibold">{t("loading")}</p>
         </div>
       </div>
     );
@@ -103,7 +93,7 @@ const EditQuiz = () => {
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-[#f47516] border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg font-semibold">Loading...</p>
+          <p className="mt-4 text-lg font-semibold">{t("loading")}</p>
         </div>
       </div>
     );
@@ -111,10 +101,10 @@ const EditQuiz = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
-      <h1 className="text-2xl font-semibold mb-6">Edit Quiz</h1>
+      <h1 className="text-2xl font-semibold mb-6">{t("title")}</h1>
       <div className="space-y-4">
         <div>
-          <label className="block font-semibold">Title</label>
+          <label className="block font-semibold">{t("form1")}</label>
           <input
             type="text"
             value={title}
@@ -124,7 +114,9 @@ const EditQuiz = () => {
         </div>
         {questions.map((q, index) => (
           <div key={index} className="space-y-2">
-            <label className="block font-semibold">Question {index + 1}</label>
+            <label className="block font-semibold">
+              {t("question")} {index + 1}
+            </label>
             <input
               type="text"
               value={q.question}
@@ -141,7 +133,7 @@ const EditQuiz = () => {
                 onChange={(e) =>
                   handleQuestionChange(index, "answers", e.target.value, idx)
                 }
-                placeholder={`Answer ${idx + 1}`}
+                placeholder={`${t("question")} ${idx + 1}`}
                 className="w-full px-4 py-2 border rounded mt-2"
               />
             ))}
@@ -152,7 +144,7 @@ const EditQuiz = () => {
               onChange={(e) =>
                 handleQuestionChange(index, "correctAnswer", e.target.value)
               }
-              placeholder="Correct Answer"
+              placeholder={t("correct")}
               className="w-full px-4 py-2 border rounded mt-2"
             />
           </div>
@@ -162,7 +154,7 @@ const EditQuiz = () => {
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           disabled={loading}
         >
-          {loading ? "Saving..." : "Save Changes"}
+          {t("save")}
         </button>
       </div>
     </div>

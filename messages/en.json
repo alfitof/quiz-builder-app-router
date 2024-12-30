@@ -1,0 +1,94 @@
+{
+  "Home": {
+    "title": "Empower Your Learning with",
+    "desc": "Create, manage, and take quizzes effortlessly with Quiztify! Whether you are a teacher, student, or just someone who loves to challenge their knowledge, Quiztify provides an intuitive and engaging platform to make learning fun and effective."
+  },
+  "Navbar": {
+    "dashboard": "Dashboard",
+    "logout": "Sign Out"
+  },
+  "Dashboard": {
+    "dashboard": "Dashboard",
+    "play": "Play Quiz!",
+    "desc_play": "Challenge yourself to a quiz with a topic of your choice.",
+    "history": "History",
+    "desc_history": "View past quiz attempts.",
+    "topic": "Hot Topics",
+    "desc_topic": "Hot topics quiz in this week.",
+    "recent": "Recent Activity",
+    "desc_recent": "You have played a total of {totalQuizzesPlayed} quizzes.",
+    "loading": "Loading",
+    "no_quiz": " No recent activity found."
+  },
+  "Quizzes": {
+    "title": "Your Quiz Collection",
+    "title_nq": "Start Your Quiz Journey",
+    "desc": "Manage and play your created quizzes",
+    "desc_nq": "Create your first quiz and begin testing knowledge in an engaging way.",
+    "add_quiz": "Create New Quiz",
+    "modify": "Modify",
+    "remove": "Remove",
+    "question": "Questions",
+    "minutes": "minutes",
+    "no_attempt": "No attempts yet",
+    "success_rate": "Success rate",
+    "play": "Play Quiz",
+    "title_modal": "Remove Quiz?",
+    "desc_modal": "This action cannot be undone. Are you sure you want to remove this quiz?",
+    "cancel": "Cancel",
+    "loading": "Loading"
+  },
+  "Create": {
+    "title": "Create a New Quiz",
+    "form1": "Title",
+    "form2": "Number of Questions",
+    "form3": "Type",
+    "mc": "Multiple Choice",
+    "form4": "Duration (minutes)",
+    "question": "Question",
+    "answer": "Answer",
+    "correct": "Correct Answer",
+    "create": "Create Quiz",
+    "loading": "Loading"
+  },
+  "Play": {
+    "loading": "Loading",
+    "not_found": "Quiz not found or has no questions.",
+    "invalid": "Invalid question.",
+    "hour": "hour",
+    "minute": "minute",
+    "second": "second",
+    "ap_title": "Quiz Complete!",
+    "ap_title2": "Great job",
+    "ap_time": "Time Taken:",
+    "ap_score": "You got Your Score: {score} out of {totalQuestions} questions",
+    "back": "Back to Quizzes",
+    "try": "Try Again",
+    "time": "Time Left:",
+    "total_q": "Question {currentQuestionIndex} of {totalQuestions}",
+    "previous": "Previous",
+    "next": "Next",
+    "submit": "Submit"
+  },
+  "Edit": {
+    "title": "Edit Quiz",
+    "form1": "Title",
+    "question": "Question",
+    "save": "Save Changes",
+    "loading": "Loading",
+    "correct": "Correct Answer"
+  },
+  "Auth": {
+    "in": "Sign in",
+    "up": "Sign up",
+    "in_email": "Sign in with e-mail",
+    "up_email": "Sign up with e-mail",
+    "no_acc": "Dont have an account?",
+    "have_acc": "Have an account?",
+    "terms": "Terms of Service",
+    "policy": "Privacy Policy",
+    "title_modal": "Check Your Email",
+    "desc_modal": "We have sent a confirmation link to your email. Please check your inbox and follow the instructions to verify your account.",
+    "close": "Close"
+  }
+}

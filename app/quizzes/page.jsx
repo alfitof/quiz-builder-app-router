@@ -12,6 +12,7 @@ import {
   Edit2,
   Trash2,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const QuizList = () => {
   const supabase = createClient();
@@ -23,6 +24,7 @@ const QuizList = () => {
   const [authLoading, setAuthLoading] = useState(true);
   const dropdownRef = useRef(null);
   const router = useRouter();
+  const t = useTranslations("Quizzes");
 
   useEffect(() => {
     const fetchSessionAndQuizzes = async () => {
@@ -87,7 +89,7 @@ const QuizList = () => {
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-[#f47516] border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg font-semibold">Loading...</p>
+          <p className="mt-4 text-lg font-semibold">{t("loading")}</p>
         </div>
       </div>
     );
@@ -98,7 +100,7 @@ const QuizList = () => {
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-[#f47516] border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg font-semibold">Loading...</p>
+          <p className="mt-4 text-lg font-semibold">{t("loading")}</p>
         </div>
       </div>
     );
@@ -114,18 +116,15 @@ const QuizList = () => {
                 <BookOpen className="w-10 h-10 text-orange-500" />
               </div>
               <h2 className="text-3xl font-bold text-gray-900 mb-3">
-                Start Your Quiz Journey
+                {t("title_nq")}
               </h2>
-              <p className="text-gray-600 mb-8">
-                Create your first quiz and begin testing knowledge in an
-                engaging way.
-              </p>
+              <p className="text-gray-600 mb-8">{t("desc_nq")}</p>
               <button
                 onClick={() => router.push("/quizzes/quiz-build")}
                 className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
                 <Plus className="w-5 h-5 mr-2" />
-                Create Your First Quiz
+                {t("add_quiz")}
               </button>
             </div>
           </div>
@@ -134,18 +133,16 @@ const QuizList = () => {
             <div className="flex flex-col sm:flex-row justify-between items-center mb-10">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                  Your Quiz Collection
+                  {t("title")}
                 </h1>
-                <p className="text-gray-600">
-                  Manage and play your created quizzes
-                </p>
+                <p className="text-gray-600">{t("desc")}</p>
               </div>
               <button
                 onClick={() => router.push("/quizzes/quiz-build")}
                 className="mt-4 sm:mt-0 inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
                 <Plus className="w-5 h-5 mr-2" />
-                Create New Quiz
+                {t("add_quiz")}
               </button>
             </div>
 
@@ -173,14 +170,14 @@ const QuizList = () => {
                             onClick={() => handleModify(quiz.id)}
                           >
                             <Edit2 className="w-4 h-4 mr-2" />
-                            Modify Quiz
+                            {t("modify")}
                           </button>
                           <button
                             className="w-full px-4 py-2 text-left hover:bg-red-50 flex items-center text-red-600"
                             onClick={() => handleRemove(quiz.id)}
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
-                            Remove Quiz
+                            {t("remove")}
                           </button>
                         </div>
                       )}
@@ -196,20 +193,24 @@ const QuizList = () => {
                     <div className="space-y-3 mb-6">
                       <div className="flex items-center text-gray-600">
                         <BookOpen className="w-5 h-5 mr-2" />
-                        <span>{quiz.total_questions} Questions</span>
+                        <span>
+                          {quiz.total_questions} {t("question")}
+                        </span>
                       </div>
                       <div className="flex items-center text-gray-600">
                         <Clock className="w-5 h-5 mr-2" />
-                        <span>{quiz.duration} minutes</span>
+                        <span>
+                          {quiz.duration} {t("minutes")}
+                        </span>
                       </div>
                       <div className="flex items-center text-gray-600">
                         <Trophy className="w-5 h-5 mr-2" />
                         <span>
                           {quiz.success_rate === null
-                            ? "No attempts yet"
+                            ? t("no_attempt")
                             : quiz.success_rate === 0
-                            ? "0% Success rate"
-                            : `${quiz.success_rate}% Success rate`}
+                            ? `0% ${t("success_rate")}`
+                            : `${quiz.success_rate}% ${t("success_rate")}`}
                         </span>
                       </div>
                     </div>
@@ -220,7 +221,7 @@ const QuizList = () => {
                       }
                       className="w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-200 font-medium"
                     >
-                      Play Quiz
+                      {t("play")}
                     </button>
                   </div>
                 </div>
@@ -233,24 +234,21 @@ const QuizList = () => {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              Remove Quiz?
+              {t("title_modal")}
             </h3>
-            <p className="text-gray-600 mb-6">
-              This action cannot be undone. Are you sure you want to remove this
-              quiz?
-            </p>
+            <p className="text-gray-600 mb-6">{t("desc_modal")}</p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={cancelRemove}
                 className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
               >
-                Cancel
+                {t("cancel")}
               </button>
               <button
                 onClick={confirmRemove}
                 className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
-                Remove
+                {t("remove")}
               </button>
             </div>
           </div>

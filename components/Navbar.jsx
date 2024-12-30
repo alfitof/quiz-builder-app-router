@@ -7,17 +7,19 @@ import { House } from "lucide-react";
 import Image from "next/image";
 import Icon from "../assets/Icon.png";
 import { useRouter, usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const Navbar = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isLanguageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
   const [selectedLanguage, setSelectedLanguage] = useState("EN");
-  const dropdownRef = useRef(null);
+  // const dropdownRef = useRef(null);
   const languageDropdownRef = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
+  const t = useTranslations("Navbar");
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
@@ -28,20 +30,12 @@ const Navbar = () => {
   };
 
   const closeDropdown = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdownOpen(false);
-    }
     if (
       languageDropdownRef.current &&
       !languageDropdownRef.current.contains(event.target)
     ) {
       setLanguageDropdownOpen(false);
     }
-  };
-
-  const changeLanguage = (lang) => {
-    setSelectedLanguage(lang);
-    setLanguageDropdownOpen(false);
   };
 
   useEffect(() => {
@@ -62,6 +56,21 @@ const Navbar = () => {
     };
   }, [supabase]);
 
+  useEffect(() => {
+    const savedLocale = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("locale="))
+      ?.split("=")[1];
+    setSelectedLanguage(savedLocale || "en");
+  }, []);
+
+  const changeLanguage = (locale) => {
+    document.cookie = `locale=${locale}; path=/`;
+    setSelectedLanguage(locale);
+    setLanguageDropdownOpen(false);
+    router.refresh();
+  };
+
   return (
     <nav className="bg-transparent">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-8">
@@ -77,19 +86,21 @@ const Navbar = () => {
               onClick={toggleLanguageDropdown}
               className="flex items-center px-5 py-2 font-medium text-gray-800 glassmorphism rounded-lg"
             >
-              {selectedLanguage === "EN" ? "🇺🇸" : "🇸🇦"}
-              <span className="ml-2 hidden md:flex">{selectedLanguage}</span>
+              {selectedLanguage === "en" ? "🇺🇸" : "🇸🇦"}
+              <span className="ml-2 hidden md:flex uppercase">
+                {selectedLanguage}
+              </span>
             </button>
             {isLanguageDropdownOpen && (
               <div className="absolute right-0 mt-2 w-32 z-50 bg-white rounded-lg shadow-lg">
                 <button
-                  onClick={() => changeLanguage("EN")}
+                  onClick={() => changeLanguage("en")}
                   className="block w-full px-5 py-3 text-left text-gray-800 hover:bg-gray-100"
                 >
                   🇺🇸 English
                 </button>
                 <button
-                  onClick={() => changeLanguage("AR")}
+                  onClick={() => changeLanguage("ar")}
                   className="block w-full px-5 py-3 text-left text-gray-800 hover:bg-gray-100"
                 >
                   🇸🇦 Arabic
@@ -105,10 +116,10 @@ const Navbar = () => {
                   className="flex items-center mr-5 px-5 py-2 font-medium text-gray-800 glassmorphism rounded-lg "
                 >
                   <House className="md:mr-2" />
-                  <p className="hidden lg:flex">Dashboard</p>
+                  <p className="hidden lg:flex">{t("dashboard")}</p>
                 </button>
               )}
-              <div ref={dropdownRef}>
+              <div>
                 <button
                   type="button"
                   className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300"
@@ -143,7 +154,7 @@ const Navbar = () => {
                           type="submit"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                         >
-                          Sign Out
+                          {t("logout")}
                         </button>
                       </form>
                     </li>

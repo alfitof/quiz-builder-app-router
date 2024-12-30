@@ -1,8 +1,10 @@
 import Image from "next/image";
 import bannerImage from "../assets/Frame 49.png";
 import Navbar from "@/components/Navbar";
+import { getTranslations } from "next-intl/server";
 
 export default async function Home() {
+  const t = await getTranslations("Home");
   return (
     <div className="bg-home">
       <Navbar />
@@ -12,15 +14,9 @@ export default async function Home() {
       >
         <div className="mb-16 text-center lg:mb-0 lg:text-left lg:pl-20">
           <h1 className="font-bold" id="banner">
-            Empower Your Learning with{" "}
-            <span style={{ color: "#f47516" }}>Quiztify</span>
+            {t("title")} <span style={{ color: "#f47516" }}>Quiztify</span>
           </h1>
-          <p className="my-6 text-gray-600 text-md leading-8">
-            Create, manage, and take quizzes effortlessly with Quiztify! Whether
-            you are a teacher, student, or just someone who loves to challenge
-            their knowledge, Quiztify provides an intuitive and engaging
-            platform to make learning fun and effective.
-          </p>
+          <p className="my-6 text-gray-600 text-md leading-8">{t("desc")}</p>
         </div>
 
         <div className=" -mt-20 lg:mt-0">

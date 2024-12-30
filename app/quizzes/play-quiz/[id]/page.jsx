@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const PlayQuiz = ({ params }) => {
   const { id } = params;
@@ -18,6 +19,7 @@ const PlayQuiz = ({ params }) => {
   const [timerStarted, setTimerStarted] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const t = useTranslations("Play");
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -142,20 +144,20 @@ const PlayQuiz = ({ params }) => {
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-[#f47516] border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg font-semibold">Loading...</p>
+          <p className="mt-4 text-lg font-semibold">{t("loading")}</p>
         </div>
       </div>
     );
   }
 
   if (!quiz || !quiz.questions || quiz.questions.length === 0) {
-    return <div>Quiz not found or has no questions.</div>;
+    return <div>{t("not_found")}</div>;
   }
 
   const currentQuestion = quiz.questions[currentQuestionIndex];
 
   if (!currentQuestion) {
-    return <div>Invalid question.</div>;
+    return <div>{t("invalid")}</div>;
   }
 
   const formatTimeTaken = (seconds) => {
@@ -164,12 +166,12 @@ const PlayQuiz = ({ params }) => {
     const secs = seconds % 60;
 
     let result = "";
-    if (hours > 0) result += `${hours} hour${hours > 1 ? "s" : ""} `;
+    if (hours > 0) result += `${hours} ${t("hour")}${hours > 1 ? "s" : ""} `;
     if (minutes > 0 || hours > 0)
-      result += `${minutes} minute${minutes > 1 ? "s" : ""} `;
-    if (secs > 0) result += `${secs} second${secs > 1 ? "s" : ""}`;
+      result += `${minutes} ${t("minute")}${minutes > 1 ? "s" : ""} `;
+    if (secs > 0) result += `${secs} ${t("second")}${secs > 1 ? "s" : ""}`;
 
-    return result.trim() || "0 seconds";
+    return result.trim() || `0 ${t("second")}`;
   };
 
   const formatTime = (seconds) => {
@@ -186,7 +188,7 @@ const PlayQuiz = ({ params }) => {
       <div className="flex items-center justify-center h-screen">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-[#f47516] border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-lg font-semibold">Loading...</p>
+          <p className="mt-4 text-lg font-semibold">{t("loading")}</p>
         </div>
       </div>
     );
@@ -196,14 +198,16 @@ const PlayQuiz = ({ params }) => {
     <div className="w-full mx-auto px-6 py-10 flex justify-center items-center bg-home  min-h-screen">
       {alreadyPlayed && score !== null ? (
         <div className="glassmorphism rounded-lg shadow-lg p-16 text-center">
-          <h2 className="text-2xl font-bold mb-6">Quiz Complete!</h2>
-          <p className="text-lg text-gray-600 mb-2">Great job</p>
+          <h2 className="text-2xl font-bold mb-6">{t("ap_title")}</h2>
+          <p className="text-lg text-gray-600 mb-2">{t("ap_title2")}</p>
           <div className="text-5xl font-bold mb-6 text-orange-500">
-            Time Taken: {formatTimeTaken(quiz.time_taken)}
+            {t("ap_time")} {formatTimeTaken(quiz.time_taken)}
           </div>
           <p className="text-gray-600 mb-8">
-            You got Your Score: {score.toFixed(2)} out of {quiz.total_questions}{" "}
-            questions
+            {t("ap_score", {
+              score: score.toFixed(2),
+              totalQuestions: quiz.total_questions,
+            })}
           </p>
 
           <button
@@ -211,14 +215,14 @@ const PlayQuiz = ({ params }) => {
             className="bg-orange-600 text-white mr-3 px-6 py-3 rounded-lg hover:bg-orange-700 
    transition-colors duration-200"
           >
-            Back to Quizzes
+            {t("back")}
           </button>
           <button
             onClick={handleTryAgain}
             className="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 
    transition-colors duration-200"
           >
-            Try Again
+            {t("try")}
           </button>
         </div>
       ) : (
@@ -226,7 +230,7 @@ const PlayQuiz = ({ params }) => {
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl font-bold text-gray-800">{quiz.title}</h1>
             <span className="text-lg font-medium text-gray-500">
-              Time Left:{" "}
+              {t("time")}{" "}
               <span className="text-orange-500 font-semibold">
                 {formatTime(timeLeft)}
               </span>
@@ -235,7 +239,10 @@ const PlayQuiz = ({ params }) => {
 
           <div className="mb-6">
             <h2 className="text-lg font-medium text-gray-800">
-              Question {currentQuestionIndex + 1} of {quiz.total_questions}
+              {t("total_q", {
+                currentQuestionIndex: currentQuestionIndex + 1,
+                totalQuestions: quiz.total_questions,
+              })}
             </h2>
             <p className="text-gray-700 mt-2">{currentQuestion.question}</p>
           </div>
@@ -270,7 +277,7 @@ const PlayQuiz = ({ params }) => {
                   : "bg-gray-500 text-white hover:bg-gray-600"
               }`}
             >
-              Previous
+              {t("previous")}
             </button>
 
             {currentQuestionIndex < quiz.total_questions - 1 ? (
@@ -278,14 +285,14 @@ const PlayQuiz = ({ params }) => {
                 onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
                 className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 shadow-md transition-all"
               >
-                Next
+                {t("next")}
               </button>
             ) : (
               <button
                 onClick={handleSubmit}
                 className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 shadow-md transition-all"
               >
-                Submit
+                {t("submit")}
               </button>
             )}
           </div>

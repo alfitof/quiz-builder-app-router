@@ -11,11 +11,12 @@ import {
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import RecentQuiz from "../RecentQuiz";
+import { useTranslations } from "next-intl";
 
 const RecentActivity = () => {
   const [totalQuizzesPlayed, setTotalQuizzesPlayed] = useState(0);
   const [loading, setLoading] = useState(true);
-
+  const t = useTranslations("Dashboard");
   const supabase = createClient();
 
   useEffect(() => {
@@ -40,24 +41,20 @@ const RecentActivity = () => {
     <Card className="col-span-4 lg:col-span-3">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">
-          <Link href="/history">Recent Activity</Link>
+          <Link href="/history">{t("recent")}</Link>
         </CardTitle>
         <CardDescription>
-          {loading
-            ? "Loading your activity..."
-            : `You have played a total of ${totalQuizzesPlayed} quizzes.`}
+          {loading ? t("loading") : t("desc_recent", { totalQuizzesPlayed })}
         </CardDescription>
       </CardHeader>
       <CardContent className="max-h-[580px] overflow-scroll">
         {loading ? (
           <div className="flex items-center justify-center h-full">
-            <p>Loading...</p>
+            <p>{t("loading")}</p>
           </div>
         ) : totalQuizzesPlayed === 0 ? (
           <div className="flex items-center justify-center h-full">
-            <p className="text-center text-muted-foreground">
-              No recent activity found.
-            </p>
+            <p className="text-center text-muted-foreground">{t("no_quiz")}</p>
           </div>
         ) : (
           <RecentQuiz />

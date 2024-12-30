@@ -4,10 +4,12 @@ import Link from "next/link";
 import { login } from "./actions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function LoginPage() {
   const [error, setError] = useState(null);
   const router = useRouter();
+  const t = useTranslations("Auth");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -38,11 +40,11 @@ export default function LoginPage() {
             </a>
           </div>
           <div class="mt-12 flex flex-col items-center">
-            <h1 class="text-2xl xl:text-3xl font-extrabold">Sign in</h1>
+            <h1 class="text-2xl xl:text-3xl font-extrabold">{t("in")}</h1>
             <div class="w-full flex-1">
               <div class="mb-12 mt-6 border-b text-center">
                 <div class="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
-                  Sign in with e-mail
+                  {t("in_email")}
                 </div>
               </div>
 
@@ -83,21 +85,21 @@ export default function LoginPage() {
                       <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
                       <circle cx="8.5" cy="7" r="4" />
                     </svg>
-                    <span class="ml-3">Sign In</span>
+                    <span class="ml-3">{t("in")}</span>
                   </button>
                   <p className="mt-6 text-xs text-gray-600 text-center">
-                    Dont have an account?{" "}
+                    {t("no_acc")}{" "}
                     <Link href="signup" className="text-blue-500 underline">
-                      Sign Up
+                      {t("up")}
                     </Link>
                   </p>
                   <p class="mt-4 text-xs text-gray-600 text-center">
                     <a href="#" class="border-b border-gray-500 border-dotted">
-                      Terms of Service
+                      {t("terms")}
                     </a>
                     <br className="my-2" />
                     <a href="#" class="border-b border-gray-500 border-dotted">
-                      Privacy Policy
+                      {t("policy")}
                     </a>
                   </p>
                 </div>
