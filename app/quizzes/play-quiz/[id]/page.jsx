@@ -45,7 +45,6 @@ const PlayQuiz = ({ params }) => {
         .single();
 
       if (error || !data) {
-        console.error("Error fetching quiz:", error);
         return;
       }
 
@@ -111,12 +110,6 @@ const PlayQuiz = ({ params }) => {
           time_taken: timeTaken,
         })
         .eq("id", id);
-
-      if (error) {
-        console.error("Error updating success rate:", error);
-      } else {
-        console.log("Success rate and time taken updated successfully!");
-      }
 
       setAlreadyPlayed(true);
       setScore(successRate);

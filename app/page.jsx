@@ -17,7 +17,7 @@ export default async function Home() {
           </h1>
           <p className="my-6 text-gray-600 text-md leading-8">
             Create, manage, and take quizzes effortlessly with Quiztify! Whether
-            you're a teacher, student, or just someone who loves to challenge
+            you are a teacher, student, or just someone who loves to challenge
             their knowledge, Quiztify provides an intuitive and engaging
             platform to make learning fun and effective.
           </p>

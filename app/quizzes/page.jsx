@@ -65,7 +65,6 @@ const QuizList = () => {
         .delete()
         .eq("id", quizToRemove);
       if (error) {
-        console.error("Error deleting quiz:", error);
         alert("Failed to delete the quiz. Please try again.");
       } else {
         alert("Quiz deleted successfully!");

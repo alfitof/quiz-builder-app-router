@@ -26,7 +26,6 @@ const RecentActivity = () => {
         .not("success_rate", "is", null);
 
       if (error) {
-        console.error("Error fetching total quizzes played:", error);
         return;
       }
 

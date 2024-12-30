@@ -40,7 +40,6 @@ const EditQuiz = () => {
         .single();
 
       if (error) {
-        console.error("Error fetching quiz:", error);
         alert("Failed to load quiz data.");
         router.push("/quizzes");
       } else {
@@ -70,7 +69,6 @@ const EditQuiz = () => {
       .eq("id", id);
 
     if (error) {
-      console.error("Error updating quiz:", error);
       alert("Failed to save the quiz. Please try again.");
     } else {
       alert("Quiz updated successfully!");
