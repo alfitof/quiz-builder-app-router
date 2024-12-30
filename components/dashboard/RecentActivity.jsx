@@ -34,7 +34,7 @@ const RecentActivity = () => {
     };
 
     fetchTotalQuizzes();
-  }, []);
+  }, [supabase]);
 
   return (
     <Card className="col-span-4 lg:col-span-3">

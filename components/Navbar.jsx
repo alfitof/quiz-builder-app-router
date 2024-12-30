@@ -3,15 +3,20 @@ import React, { useState, useEffect, useRef } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { logout } from "@/app/logout/action";
 import Link from "next/link";
+import { House } from "lucide-react";
+import Image from "next/image";
+import Icon from "../assets/Icon.png";
+import { useRouter, usePathname } from "next/navigation";
 
 const Navbar = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [isLanguageDropdownOpen, setLanguageDropdownOpen] = useState(false); // State untuk dropdown bahasa
+  const [isLanguageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState("EN"); // Default bahasa
+  const [selectedLanguage, setSelectedLanguage] = useState("EN");
   const dropdownRef = useRef(null);
   const languageDropdownRef = useRef(null);
-
+  const router = useRouter();
+  const pathname = usePathname();
   const supabase = createClient();
 
   const toggleDropdown = () => {
@@ -45,7 +50,7 @@ const Navbar = () => {
         data: { session },
       } = await supabase.auth.getSession();
       if (session) {
-        setUserEmail(session.user.email); // Ambil email dari sesi
+        setUserEmail(session.user.email);
       }
     };
 
@@ -61,23 +66,19 @@ const Navbar = () => {
     <nav className="bg-transparent">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-8">
         <a href="/" className="flex items-center space-x-3">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            className="h-8"
-            alt="Flowbite Logo"
-          />
+          <Image src={Icon} className="h-10 w-10" alt="Flowbite Logo" />
           <span className="self-center text-2xl font-semibold whitespace-nowrap">
             Quiztify
           </span>
         </a>
-        <div className="flex items-center md:order-2 space-x-3 md:space-x-0">
+        <div className="flex items-center md:order-2 ">
           <div ref={languageDropdownRef} className="relative mr-5">
             <button
               onClick={toggleLanguageDropdown}
               className="flex items-center px-5 py-2 font-medium text-gray-800 glassmorphism rounded-lg"
             >
               {selectedLanguage === "EN" ? "🇺🇸" : "🇸🇦"}
-              <span className="ml-2">{selectedLanguage}</span>
+              <span className="ml-2 hidden md:flex">{selectedLanguage}</span>
             </button>
             {isLanguageDropdownOpen && (
               <div className="absolute right-0 mt-2 w-32 z-50 bg-white rounded-lg shadow-lg">
@@ -97,19 +98,30 @@ const Navbar = () => {
             )}
           </div>
           {userEmail ? (
-            <div ref={dropdownRef}>
-              <button
-                type="button"
-                className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300"
-                onClick={toggleDropdown}
-              >
-                <span className="sr-only">Open user menu</span>
-                <img
-                  className="w-10 h-10 rounded-full"
-                  src="https://lh3.googleusercontent.com/a/AEdFTp66EFEBuCaV97k3UmCiUIfgQ07VOv7VO-GCdRw3WQ=s96-c"
-                  alt=""
-                />
-              </button>
+            <div className="flex flex-row">
+              {pathname === "/" && (
+                <button
+                  onClick={() => router.push("/dashboard")}
+                  className="flex items-center mr-5 px-5 py-2 font-medium text-gray-800 glassmorphism rounded-lg "
+                >
+                  <House className="md:mr-2" />
+                  <p className="hidden lg:flex">Dashboard</p>
+                </button>
+              )}
+              <div ref={dropdownRef}>
+                <button
+                  type="button"
+                  className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300"
+                  onClick={toggleDropdown}
+                >
+                  <span className="sr-only">Open user menu</span>
+                  <img
+                    className="w-10 h-10 rounded-full"
+                    src="https://lh3.googleusercontent.com/a/AEdFTp66EFEBuCaV97k3UmCiUIfgQ07VOv7VO-GCdRw3WQ=s96-c"
+                    alt=""
+                  />
+                </button>
+              </div>
 
               {isDropdownOpen && (
                 <div

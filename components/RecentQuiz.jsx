@@ -26,7 +26,7 @@ const RecentQuiz = () => {
     };
 
     fetchRecentQuizzes();
-  }, []);
+  }, [supabase]);
 
   return (
     <div className="space-y-8">

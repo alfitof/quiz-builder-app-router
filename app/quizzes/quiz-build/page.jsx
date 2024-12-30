@@ -73,7 +73,7 @@ const CreateQuiz = () => {
 
       return () => clearInterval(interval);
     }
-  }, [loading]);
+  }, [loading, loadingTexts.length]);
 
   const handleCreateQuiz = async () => {
     if (!title.trim()) {
